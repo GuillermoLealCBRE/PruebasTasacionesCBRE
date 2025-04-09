@@ -1,16 +1,12 @@
 from behave import given, when, then
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 # FEATURE 1 ESCENARIO 1
 
  # Paso 1 abrimos el navegador
 @given('the user opens browser')
 def step_given_user_has_opened_browser(context):
-    # Este step ahora solo verifica que el navegador esté inicializado
     assert context.driver is not None, "Browser is not initialized"
-    print("Browser is already initialized.")
 
 # Paso 2 navegamos a la web de tasaciones
 @when('the user navigates to "https://test-tasaciones.cbre.es/"')
