@@ -59,12 +59,12 @@ def step_the_user_clicks_outside_input(context):
 
     if attempts == max_attempts:
         print("No se pudo hacer clic fuera del input después de varios intentos. Continuando con el flujo.")
-        
+
 # --------------------------------------------------------------------------------------------------------------
 
 # ESCENARIO 2 SELECCIONAR PROPIEDAD
 
-# Paso 7 seleccionar la vivienda del desplegable
+# Paso 6 seleccionar la vivienda del desplegable
 @when('the user selects a property from the dropdown')
 def step_the_user_selects_property_from_dropdown(context):
     attempts = 0
@@ -92,14 +92,14 @@ def step_the_user_selects_property_from_dropdown(context):
     if attempts == max_attempts:
         print("No se pudo seleccionar la propiedad del desplegable después de varios intentos. Continuando con el flujo.")
 
-# Paso 8 hacer click en el botón "Confirmar vivienda"
+# Paso 7 hacer click en el botón "Confirmar vivienda"
 @when('the user clicks the "Confirmar vivienda" button')
 def step_the_user_clicks_confirm_property(context):
     # Forzar la visibilidad del tercer div directamente ya que el botón no es interactuable por selenium
     next_div = context.driver.find_element(By.XPATH, '//*[@id="prop-result"]/div[1]/div[2]')
     context.driver.execute_script("arguments[0].style.display = 'block';", next_div)
 
-# Paso 9 verificar que hemos cambiado de paso
+# Paso 8 verificar que hemos cambiado de paso
 @then('the user proceeds to the next step')
 def step_the_user_proceeds_to_next_step(context):
     WebDriverWait(context.driver, 10).until(
@@ -109,7 +109,7 @@ def step_the_user_proceeds_to_next_step(context):
 # ---------------------------------------------------------------------------------------------------------------
 # ESCENARIO 3
 
-# Paso 10 Seleccionar para que necesito la tasacion
+# Paso 9 Seleccionar para que necesito la tasacion
 @when('the user selects "Necesito la tasacion para" as "{option}"')
 def step_the_user_selects_necesito_la_tasacion(context, option):
     # Seleccionar la opción con javascript
@@ -123,7 +123,7 @@ def step_the_user_selects_necesito_la_tasacion(context, option):
     except Exception as e:
         raise Exception(f"Failed to select the option '{option}' with JavaScript: {e}")
 
-# Paso 11 Hacer click en el boton "Continuar"
+# Paso 10 Hacer click en el boton "Continuar"
 @when('the user clicks the "Continuar" button')
 def step_the_user_clicks_continuar(context):
     try:
