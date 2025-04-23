@@ -34,7 +34,7 @@ def step_user_fills_personal_data(context):
             input_element.send_keys(value)
         else:
             raise ValueError(f"El campo '{field}' no es reconocido.")
-    time.sleep(3)
+    time.sleep(2)
 
 # Paso 3.1.1 seleccionar check "Los datos de facturación son los mismos que los personales" (OPCION A)
 @when('the user selects "Los datos de facturación son los mismos que los personales"')
@@ -120,7 +120,7 @@ def step_user_clicks_pay_button(context):
 def step_user_closes_popup(context):
     try:
         popup_close_button = WebDriverWait(context.driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, '//*[@id="modalFirmaContinuar"]'))
+            EC.element_to_be_clickable((By.ID, 'modalFirmaContinuar'))
         )
         popup_close_button.click()
     except Exception as e:
