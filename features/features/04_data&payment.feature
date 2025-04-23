@@ -10,8 +10,7 @@ Feature: Data and Payment
             | Email      | guillermo.leal@email.com |
             | DNI        | 43401519J                |
             | Teléfono   | 627347292                |
-
-        
+            
         # Paso 3.1: Los datos de facturación son los mismos que los personales (Opcion A)
         When the user selects "Los datos de facturación son los mismos que los personales"
         # And the user fills in the billing data:
@@ -20,7 +19,7 @@ Feature: Data and Payment
         #   | Municipio     | Barcelona    |
         #   | Codigo postal | 20329        |
         #   | Provincia     | Barcelona    |
-
+        
         # Paso 3.2 Introducir datos de facturación manualmente (Opcion B)
         # When the user fills in the billing data manually:
         #     | field      | value                    |
@@ -39,7 +38,7 @@ Feature: Data and Payment
 
     Scenario: Select payment method
         # Opción de tarjeta o bizum
-        When the user selects the payment method "tarjeta" 
+        When the user selects the payment method "tarjeta"
         When the user clicks the "Aceptar condiciones" checkbox
         And the user clicks the "Pagar" button
         And the user closes the "pagar" pop-up

@@ -6,7 +6,7 @@ Feature: Fill in property location
         When the user closes the pop-up
         And the user clicks "con referencia catastral"
         And the user enters the cadastral reference "2487901VK4728G0004DX"
-        And the user clicks outside the input field
+        And the user clicks the "Buscar vivienda" button
 
     Scenario: Select a property
         When the user selects a property from the dropdown

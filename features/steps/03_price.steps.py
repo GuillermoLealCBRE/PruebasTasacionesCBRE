@@ -13,21 +13,21 @@ from selenium.common.exceptions import TimeoutException
 @given('the user is on the price section')
 def step_user_is_on_price_step(context):
     WebDriverWait(context.driver, 10).until(
-        EC.presence_of_element_located((By.XPATH, '//*[@id="tasacion-step2"]/div[2]'))
+        EC.presence_of_element_located((By.ID, 'tasacion-step2'))
     )
 
-# Paso 2 Introducir un Cupón Promocional
+# Paso 2 Introducir un Cupón Promocional (OPCIONAL)
 # Comentado debido a ya incluir un cupon por defecto al estar en campaña por provincia
-#@then('the user applies the promotional coupon "{coupon}"')
+# @then('the user applies the promotional coupon "{coupon}"')
 def step_user_applies_promotional_coupon(context, coupon):
     try:
         promo_input = WebDriverWait(context.driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, '//*[@id="cupon_text"]'))
+            EC.presence_of_element_located((By.ID, 'cupon_text'))
         )
         promo_input.clear()
         promo_input.send_keys(coupon)
 
-        apply_button = context.driver.find_element(By.XPATH, '//*[@id="bt_desc"]')
+        apply_button = context.driver.find_element(By.ID, 'bt_desc')
         apply_button.click()
     except Exception as e:
         raise Exception(f"Failed to apply the promotional coupon '{coupon}': {e}")
@@ -40,14 +40,16 @@ def step_user_clicks_continue_button(context):
             EC.invisibility_of_element((By.CLASS_NAME, 'tasacion-bottom-contact'))
         )
     except TimeoutException:
-        print("The blocking element did not disappear. Proceeding to click the button anyway.")
+        print("El elemento bloqueador no desapareció. Intentando hacer clic en el botón de todos modos.")
 
     try:
         continue_button = WebDriverWait(context.driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, '//*[@id="aceptar-presupuesto"]'))
+            EC.element_to_be_clickable((By.ID, 'aceptar-presupuesto'))
         )
-        context.driver.execute_script("arguments[0].click();", continue_button)
-        print("The user clicked the 'Continue' button using JavaScript.")
-        time.sleep(15)
+        continue_button.click()
     except Exception as e:
-        raise Exception(f"Failed to click the continue button: {e}")
+        try:
+            continue_button = context.driver.find_element(By.XPATH, '//*[@id="aceptar-presupuesto"]')
+            context.driver.execute_script("arguments[0].click();", continue_button)
+        except Exception as js_error:
+            raise Exception(f"Failed to click the 'Continue' button even with JavaScript: {js_error}")

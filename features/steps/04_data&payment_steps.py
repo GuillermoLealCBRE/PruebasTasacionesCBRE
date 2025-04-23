@@ -11,6 +11,7 @@ def step_user_is_on_data_payment_section(context):
     WebDriverWait(context.driver, 10).until(
         EC.presence_of_element_located((By.XPATH, '//*[@id="tasacion-step3"]/div[1]/div/div[1]'))
     )
+    time.sleep(2)
 
 # Paso 2 rellenar campos de datos personales
 @when('the user fills in the personal data')
@@ -30,7 +31,6 @@ def step_user_fills_personal_data(context):
         if field in field_mapping:
             selector_type, selector_value = field_mapping[field]
             input_element = context.driver.find_element(selector_type, selector_value)
-            input_element.clear()
             input_element.send_keys(value)
         else:
             raise ValueError(f"El campo '{field}' no es reconocido.")
