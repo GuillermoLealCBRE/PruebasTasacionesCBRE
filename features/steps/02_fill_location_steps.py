@@ -2,7 +2,7 @@ from behave import given, when, then
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.action_chains import ActionChains
+from selenium.common.exceptions import TimeoutException
 
 import time
 
@@ -12,12 +12,23 @@ import time
 
 # ESCENARIO 1 SELECCIONAR REF CASTRAL
 
-# Paso 1 verificar que estamos en la pagina 
+# Paso 1 verificar que estamos en la pagina y refrescar si hay error de carga
 @given('the user is on the appraisal calculation page')
 def step_user_is_on_appraisal_calculation_page(context):
-    WebDriverWait(context.driver, 10).until(
-        EC.title_contains("Contrata tu Tasación Oficial Online")
-    )
+    try:
+        WebDriverWait(context.driver, 10).until(
+            lambda driver: driver.execute_script("return document.readyState") == "complete"
+        )
+        WebDriverWait(context.driver, 10).until(
+            EC.title_contains("Contrata tu Tasación Oficial Online")
+        )
+    except TimeoutException:
+        context.driver.refresh()
+        WebDriverWait(context.driver, 10).until(
+            lambda driver: driver.execute_script("return document.readyState") == "complete"
+        )
+    except Exception as e:
+        raise Exception(f"Error al cargar la página de cálculo de tasación: {e}")
 
 # Paso 2 verificar que el pop-up de la pagina de tasacion se muestre y lo cierre
 @when('the user closes the pop-up')
