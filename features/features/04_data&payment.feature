@@ -42,3 +42,15 @@ Feature: Data and Payment
         When the user clicks the "Aceptar condiciones" checkbox
         And the user clicks the "Pagar" button
         And the user closes the "pagar" pop-up
+    
+    Scenario: Pay with "tarjeta"
+        Given the user is on the payment page
+        When the user fills in the card details:
+            | field         | value             |
+            | Número        | 4548810000000003  |
+            | Caducidad     | 12/49             |
+            | CVV           | 123               |
+
+        # When the user clicks the "Pagar" button on the payment page
+
+    # Scenario: Pay with bizum

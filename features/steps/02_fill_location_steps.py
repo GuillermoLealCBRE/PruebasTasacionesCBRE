@@ -88,26 +88,16 @@ def step_the_user_clicks_search_property(context):
 # ESCENARIO 2 SELECCIONAR PROPIEDAD
 
 # Paso 6 seleccionar la vivienda del desplegable
-@when('the user selects a property from the dropdown')
-def step_the_user_selects_property_from_dropdown(context):
-    try:
-        dropdown = WebDriverWait(context.driver, 10).until(
-            EC.element_to_be_clickable((By.CLASS_NAME, "cbreSelect-element"))
-        )
-        dropdown.click()
-
-        options = WebDriverWait(context.driver, 10).until(
-            EC.presence_of_all_elements_located((By.XPATH, '//ul[@class="cbreSelect-options"]/li'))
-        )
-
-        if options:
-            options[1].click()
-            print(f"Opción seleccionada: {options[1].text}")
-        else:
-            print("No se encontraron opciones en el desplegable.")
-            raise Exception("No se encontraron opciones en el desplegable.")
-    except Exception:
-        print(f"Error al seleccionar una propiedad del desplegable:")
+@when('the user selects the property with rel "{rel_value}" from the dropdown')
+def step_the_user_selects_property_from_dropdown(context, rel_value):
+    dropdown = WebDriverWait(context.driver, 10).until(
+        EC.element_to_be_clickable((By.CLASS_NAME, "cbreSelect-element"))
+    )
+    dropdown.click()
+    desired_option = WebDriverWait(context.driver, 10).until(
+        EC.element_to_be_clickable((By.XPATH, f'//li[@rel="{rel_value}"]'))
+    )
+    desired_option.click()
 
 # Paso 7 verificar que hemos cambiado de paso
 @then('the user proceeds to the next step')

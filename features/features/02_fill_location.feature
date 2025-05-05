@@ -9,7 +9,7 @@ Feature: Fill in property location
         And the user clicks the "Buscar vivienda" button
 
     Scenario: Select a property
-        When the user selects a property from the dropdown
+        When the user selects the property with rel "2487901VK4728G0004DX" from the dropdown
         And the user clicks the "Confirmar vivienda" button
         Then the user proceeds to the next step
     

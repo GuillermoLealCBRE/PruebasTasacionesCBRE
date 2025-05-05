@@ -79,6 +79,9 @@ def step_user_fills_additional_data(context, additional_text):
     except Exception as e:
         raise Exception(f"Failed to fill in additional data: {e}")
 
+# ESCENARIO 2 SELECCIONAR MÉTODO DE PAGO
+# ------------------------------------------
+
 # Paso 5: El usuario selecciona el método de pago
 @when('the user selects the payment method "{payment_method}"')
 def step_user_selects_payment_method(context, payment_method):
@@ -125,4 +128,63 @@ def step_user_closes_popup(context):
         popup_close_button.click()
     except Exception as e:
         raise Exception(f'Failed to close the pop-up: {e}')
+
+# ESCENARIO 3 PAGO CON TARJETA
+# ------------------------------------------
+
+# Paso 9: Comprobar que la pasarela de pago se ha cargado correctamente
+@given('the user is on the payment page')
+def step_user_is_on_payment_page(context):
+    try:
+        WebDriverWait(context.driver, 10).until(
+            lambda driver: driver.execute_script("return document.readyState") == "complete"
+        )
+    except Exception as e:
+        raise Exception(f"Error al cargar la página de pago: {e}")
+
+# Paso 10: Rellenar datos de la tarjeta
+@when('the user fills in the card details')
+def step_user_fills_card_details(context):
+    field_mapping = {
+        "Número": (By.ID, "card-number"),
+        "Caducidad": (By.ID, "card-expiration"),
+        "CVV": (By.ID, "card-cvv"),
+    }
+
+    # Cambiamos al contexto del iframe
+    WebDriverWait(context.driver, 10).until(
+        EC.frame_to_be_available_and_switch_to_it((By.TAG_NAME, "iframe"))
+    )
+
+    for row in context.table:
+        field = row['field']
+        value = row['value']
+        
+        if field in field_mapping:
+            selector_type, selector_value = field_mapping[field]
+            input_element = WebDriverWait(context.driver, 10).until(
+                EC.visibility_of_element_located((selector_type, selector_value))
+            )
+            input_element.clear()
+
+            for char in value :
+                input_element.send_keys(char)
+                time.sleep(0.1)
+            if field == "CVV":
+                input_element.send_keys(Keys.ENTER)
+        else:
+            raise ValueError(f"El campo '{field}' no es reconocido.")
+        
+    context.driver.switch_to.default_content()
+
+    time.sleep(12)
+
+# Paso 11: El usuario pulsa el botón de pagar
+@when('the user clicks the "Pagar" button on the payment page')
+def step_user_clicks_pay_button(context):
+    context.driver.find_element(By.TAG_NAME, "body").click()
+    pay_button = WebDriverWait(context.driver, 10).until(
+        EC.element_to_be_clickable((By.ID, 'divImgAceptar'))
+    )
+    pay_button.click()
     time.sleep(15)
