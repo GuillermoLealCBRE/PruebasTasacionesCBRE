@@ -174,17 +174,28 @@ def step_user_fills_card_details(context):
                 input_element.send_keys(Keys.ENTER)
         else:
             raise ValueError(f"El campo '{field}' no es reconocido.")
-        
-    context.driver.switch_to.default_content()
-
-    time.sleep(12)
 
 # Paso 11: El usuario pulsa el botón de pagar
 @when('the user clicks the "Pagar" button on the payment page')
 def step_user_clicks_pay_button(context):
-    context.driver.find_element(By.TAG_NAME, "body").click()
     pay_button = WebDriverWait(context.driver, 10).until(
         EC.element_to_be_clickable((By.ID, 'divImgAceptar'))
     )
     pay_button.click()
-    time.sleep(15)
+
+# Paso 12: El usuario pulsa el botón de Enviar en la página de pago
+@when('the user clicks the "Enviar" button on the payment page')
+def step_user_clicks_enviar_button(context):
+    enviar_button = WebDriverWait(context.driver, 10).until(
+        EC.visibility_of_element_located((By.ID, 'boton'))
+    )
+    enviar_button.click()
+
+# Paso 13: El usuario pulsa el botón de continuar en la página de pago
+@when('the user clicks the "Continuar" button on the payment page')
+def step_user_clicks_continuar_button(context):
+    continuar_button = WebDriverWait(context.driver, 10).until(
+        EC.element_to_be_clickable((By.XPATH, '//input[@lngid="continuar"]'))
+    )
+    continuar_button.click()
+    time.sleep(200)

@@ -51,6 +51,9 @@ Feature: Data and Payment
             | Caducidad     | 12/49             |
             | CVV           | 123               |
 
-        # When the user clicks the "Pagar" button on the payment page
+        When the user clicks the "Pagar" button on the payment page
+        When the user clicks the "Enviar" button on the payment page
+        When the user clicks the "Continuar" button on the payment page
+        # Then the user should see the message "Tasación solicitada con éxito" on the payment page
 
     # Scenario: Pay with bizum
