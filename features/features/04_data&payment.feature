@@ -5,11 +5,11 @@ Feature: Data and Payment
         Given the user is on the data and payment section
         When the user fills in the personal data:
             | field      | value                    |
-            | Nombre     | Guillermo                |
-            | Apellidos  | Leal Martinez            |
-            | Email      | guillermo.leal@email.com |
+            | Nombre     | Tester                   |
+            | Apellidos  | Tester                   |
+            | Email      | test@email.com           |
             | DNI        | 43401519J                |
-            | Teléfono   | 627347292                |
+            | Teléfono   | 627347293                |
             
         # Paso 3.1: Los datos de facturación son los mismos que los personales (Opcion A)
         When the user selects "Los datos de facturación son los mismos que los personales"
@@ -57,3 +57,5 @@ Feature: Data and Payment
         # Then the user should see the message "Tasación solicitada con éxito" on the payment page
 
     # Scenario: Pay with bizum
+        # Given the user is on the payment
+        

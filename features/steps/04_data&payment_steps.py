@@ -198,4 +198,3 @@ def step_user_clicks_continuar_button(context):
         EC.element_to_be_clickable((By.XPATH, '//input[@lngid="continuar"]'))
     )
     continuar_button.click()
-    time.sleep(200)

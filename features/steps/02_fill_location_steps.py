@@ -90,14 +90,19 @@ def step_the_user_clicks_search_property(context):
 # Paso 6 seleccionar la vivienda del desplegable
 @when('the user selects the property with rel "{rel_value}" from the dropdown')
 def step_the_user_selects_property_from_dropdown(context, rel_value):
-    dropdown = WebDriverWait(context.driver, 10).until(
-        EC.element_to_be_clickable((By.CLASS_NAME, "cbreSelect-element"))
-    )
-    dropdown.click()
-    desired_option = WebDriverWait(context.driver, 10).until(
-        EC.element_to_be_clickable((By.XPATH, f'//li[@rel="{rel_value}"]'))
-    )
-    desired_option.click()
+        blocking_elements = context.driver.find_elements(By.CLASS_NAME, 'tasacion-bottom-contact')
+        for element in blocking_elements:
+            context.driver.execute_script("arguments[0].style.display = 'none';", element)
+
+        dropdown = WebDriverWait(context.driver, 10).until(
+            EC.element_to_be_clickable((By.CLASS_NAME, "cbreSelect-element"))
+        )
+        dropdown.click()
+        
+        desired_option = WebDriverWait(context.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, f'//li[@rel="{rel_value}"]'))
+        )
+        desired_option.click()
 
 # Paso 7 verificar que hemos cambiado de paso
 @then('the user proceeds to the next step')
